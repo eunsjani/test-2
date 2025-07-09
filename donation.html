@@ -989,7 +989,9 @@
         weeklyDonationSlider.addEventListener('input', updateCalculation);
 
         startButton.addEventListener('click', () => {
-            document.getElementById('completionSection').classList.remove('hidden');
+            const completionSection = document.getElementById('completionSection');
+            completionSection.classList.remove('hidden');
+            completionSection.style.display = 'flex';
         });
 
         // 완료 화면 버튼들 이벤트
@@ -1023,12 +1025,23 @@
 
         // 페이지 로드 시 초기화
         window.onload = () => {
-            // 완료 화면 숨기기 (새로 접속할 때는 항상 기부 설정 화면부터)
-            document.getElementById('completionSection').classList.add('hidden');
+            // 완료 화면 강제로 숨기기 (새로 접속할 때는 항상 기부 설정 화면부터)
+            const completionSection = document.getElementById('completionSection');
+            completionSection.classList.add('hidden');
+            completionSection.style.display = 'none';
             
             createRecommendedButtons(); // 추천 조합 버튼 생성 및 첫 번째 버튼 자동 클릭
             // updateCalculation()은 createRecommendedButtons 내에서 첫 번째 버튼 클릭 시 호출됨
         };
+        
+        // 페이지 로드 즉시 완료 화면 숨기기
+        document.addEventListener('DOMContentLoaded', () => {
+            const completionSection = document.getElementById('completionSection');
+            if (completionSection) {
+                completionSection.classList.add('hidden');
+                completionSection.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
