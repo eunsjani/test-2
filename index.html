@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이들에게 따뜻한 식사를</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>결식 우려 아동 기부</title>
     <!-- Pretendard 폰트 (Inter로 대체, 유사한 굵기 사용) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif; /* Pretendard Medium 대신 Inter 폰트 사용 */
-            background-color: #f9fafb; /* Toss-like 아주 연한 회색 배경 */
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -19,745 +17,66 @@
             min-height: 100vh;
             padding: 24px;
             box-sizing: border-box;
-        }
-        .container {
-            background-color: #ffffff;
-            border-radius: 16px; /* 토스 카드와 유사한 둥근 모서리 */
-            box-shadow: none; /* 그림자 없음 */
-            border: 1px solid #e0e0e0; /* 미묘한 연한 회색 테두리 */
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-        }
-        h1 {
-            color: #1a1a1a; /* 매우 진한 회색 */
-            font-size: 2.75rem; /* 44px */
-            font-weight: 800; /* Extra bold */
-            margin-bottom: 3rem; /* 48px */
-            line-height: 1.2;
-            text-align: center;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        h2 {
-            color: #333333; /* h1보다 살짝 연한 회색 */
-            font-size: 1.5rem; /* 24px */
-            font-weight: 700; /* Bold */
-            margin-bottom: 1.5rem; /* 24px */
-        }
-        label {
-            color: #555555; /* 중간 회색 */
-            font-weight: 600; /* SemiBold */
-            font-size: 1.1rem; /* 17.6px */
-            display: flex;
-            justify-content: center;
-            align-items: baseline;
-            gap: 8px;
-        }
-        label span {
-            color: #007bff; /* 토스 파란색 */
-            font-size: 1.5rem; /* 24px */
-            font-weight: 700; /* Bold */
-        }
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 6px; /* 얇은 트랙 */
-            background: #e5e7eb; /* 슬라이더 바 배경색 */
-            border-radius: 3px;
-            outline: none;
-            opacity: 1;
-            transition: background-color .2s;
-            margin-top: 12px;
-            margin-bottom: 24px;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px; /* 작은 핸들 */
-            height: 20px;
-            background: #007bff; /* 토스 파란색 핸들 */
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: none; /* 그림자 없음 */
-            transition: transform 0.1s;
-        }
-        input[type="range"]::-webkit-slider-thumb:active {
-            transform: scale(1.15);
-        }
-        input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            background: #007bff;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: none;
-            transition: transform 0.1s;
-        }
-        input[type="range"]::-moz-range-thumb:active {
-            transform: scale(1.15);
-        }
-
-        /* 추천 기부 조합 버튼 스타일 */
-        .recommended-food-button {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 120px; /* 버튼 크기 증가 */
-            height: 120px; /* 버튼 크기 증가 */
-            padding: 16px; /* 내부 여백 증가 */
-            margin: 0; /* gap으로 간격 조절 */
-            background-color: #f2f4f6; /* 카드 배경색 */
-            color: #1c1c1e; /* 텍스트 색상 */
-            border-radius: 12px; /* 둥근 모서리 */
-            font-size: 0.9rem; /* 14.4px */
-            font-weight: 600; /* SemiBold */
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            border: 1px solid transparent; /* 기본 투명 테두리 */
-            text-align: center;
-            flex-shrink: 0;
-            box-shadow: none; /* 그림자 없음 */
-        }
-        .recommended-food-button:hover {
-            background-color: #e6e8eb; /* 호버 시 살짝 어둡게 */
-            transform: translateY(-2px); /* 미묘한 리프트 효과 */
-        }
-        .recommended-food-button.selected {
-            background-color: #e6f0ff; /* 선택된 카드 배경색 */
-            border-color: #007aff; /* 선택 시 테두리색 */
-            color: #007aff; /* 선택 시 텍스트 강조색 */
-            box-shadow: none; /* 그림자 없음 */
-        }
-        .recommended-food-button .icon {
-            font-size: 2.8rem; /* 이모지 크기 */
-            margin-bottom: 6px;
-        }
-        /* 버튼 그룹 간격 */
-        #recommendedButtons {
-            gap: 16px; /* 버튼 사이 간격 16px */
-        }
-
-        /* 강조 메시지 영역 스타일 */
-        #resultDisplay {
-            background-color: #ffffff; /* 흰색 배경 */
-            padding: 32px;
-            border-radius: 16px;
-            margin-bottom: 2.5rem; /* 40px */
-            box-shadow: none; /* 그림자 없음 */
-            border: 1px solid #e0e0e0; /* 미묘한 테두리 */
-            position: relative;
-            overflow: visible; /* 말풍선이 박스 밖으로 나갈 수 있도록 */
-            margin-top: 120px; /* 말풍선 공간 확보 */
-        }
-        #resultDisplay p {
-            color: #1c1c1e; /* 본문 문장 색상 */
-            line-height: 1.6;
-            font-size: 1rem; /* 16px */
-            font-weight: 400; /* Regular */
-            margin-bottom: 0.5rem;
-        }
-        #weeksNeeded {
-            font-size: 1.5rem; /* 24px */
-            font-weight: 700; /* Bold */
-            color: #1c1c1e; /* 강조 메시지 숫자 색상 */
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        #resultDisplay .message {
-            background-color: #f2f4f6; /* 공감 메시지 박스 배경색 */
-            border-radius: 12px;
-            padding: 16px; /* padding: 16px */
-            margin-top: 24px;
-            font-size: 0.95rem; /* 15.2px */
-            color: #444444;
-            line-height: 1.5;
-            font-weight: 500; /* Medium */
-            border: none; /* 테두리 없음 */
-            box-shadow: none; /* 그림자 없음 */
-        }
-        #resultDisplay .message strong {
-            font-weight: 700;
-            color: #007aff; /* 강조 텍스트 색상 (링크처럼 보이게) */
-        }
-
-        /* 단계별 헤더 스타일 */
-        .step-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        .step-number {
-            background-color: #007bff;
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .step-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1a1a1a;
             margin: 0;
+        }
+        
+        .main-container {
             text-align: center;
+            max-width: 500px;
+            width: 100%;
         }
         
-        .step-description {
-            color: #666666;
-            font-size: 0.875rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
-        }
-        
-        /* 계획 요약 스타일 */
-        .plan-summary {
-            background-color: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            overflow: visible;
-        }
-        
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            overflow: visible;
-        }
-        
-        .summary-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .summary-label {
-            color: #666666;
-            font-size: 0.875rem;
-        }
-        
-        .summary-value {
+        h1 {
             color: #1a1a1a;
-            font-weight: 600;
-            font-size: 1rem;
-            position: relative;
-            display: inline-block;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            line-height: 1.2;
         }
         
-        .plan-message {
-            text-align: center;
-            color: #007bff;
-            font-size: 1.125rem;
-            margin-top: 16px;
+        .subtitle {
+            color: #666666;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 3rem;
+            line-height: 1.5;
         }
         
-        /* 시작하기 버튼 스타일 */
         .start-button {
             background-color: #007aff;
             color: #ffffff;
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            padding: 18px 40px;
-            border-radius: 12px;
-            box-shadow: none;
-            transition: background-color 0.3s, transform 0.2s;
-            width: 100%;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
+            padding: 20px 50px;
+            border-radius: 16px;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: none;
+            text-decoration: none;
+            display: inline-block;
         }
         
         .start-button:hover {
             background-color: #0066d6;
             transform: translateY(-2px);
         }
-
-        /* 말풍선 스타일 */
-        .speech-bubble {
-            position: absolute;
-            top: -100px;
-            right: 0;
-            background-color: #2d3748;
-            color: #ffffff;
-            padding: 20px 24px;
-            border-radius: 16px;
-            font-size: 16px;
-            line-height: 1.7;
-            max-width: 400px;
-            text-align: center;
-            z-index: 100;
-            animation: bubbleFloat 3s ease-in-out infinite;
-            white-space: normal;
-            word-wrap: break-word;
-        }
-
-        .speech-bubble::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            right: 30px;
-            border: 10px solid transparent;
-            border-top-color: #2d3748;
-        }
-
-        .speech-bubble strong {
-            color: #ffffff;
-            font-weight: normal;
-        }
-
-        @keyframes bubbleFloat {
-            0%, 100% { 
-                transform: translateY(0px); 
-            }
-            50% { 
-                transform: translateY(-6px); 
-            }
-        }
-
-        /* 스탬프 섹션 스타일 */
-        #stampSection {
-            background-color: #fefefe;
-            border-radius: 16px;
-            box-shadow: none;
-            border: 1px solid #e0e0e0;
-            padding: 32px;
-        }
-        #stampSection h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-        }
-        #stampSection p {
-            font-size: 0.95rem;
-            color: #555555;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
-        }
-        .stamp-grid {
-            border-radius: 16px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 24px;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-            border: 2px solid #dee2e6;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-            gap: 12px;
-        }
-        .stamp-slot {
-            width: 70px;
-            height: 70px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            font-size: 11px;
-            color: #6c757d;
-            border: 2px solid #dee2e6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            font-weight: 600;
-            text-align: center;
-            line-height: 1.2;
-        }
-        .stamp-slot::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
-        }
-        .stamp-slot:hover:not(.stamped) {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            border-color: #2196f3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
-        }
-        .stamp-slot:hover:not(.stamped)::before {
-            transform: translateX(100%);
-        }
-        .stamp-slot.stamped {
-            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
-            color: #ffffff;
-            border-color: #4caf50;
-            font-size: 24px;
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
-        }
-        .stamp-slot.stamped::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: stampEffect 0.6s ease-out;
-        }
-        @keyframes stampEffect {
-            0% { width: 0; height: 0; opacity: 1; }
-            100% { width: 80px; height: 80px; opacity: 0; }
-        }
-        #stampedCount, #totalStamps {
-            color: #007bff;
-            font-weight: 700;
-        }
-        #deliverButton {
-            background-color: #28a745;
-            color: #ffffff;
-            font-weight: 600;
-            padding: 12px 32px;
-            border-radius: 12px;
-            box-shadow: none;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            position: relative;
-            overflow: hidden;
-        }
-        #deliverButton:disabled {
-            background-color: #dee2e6;
-            color: #6c757d;
-            cursor: not-allowed;
-            transform: none;
-        }
-        #deliverButton:not(:disabled):hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-        }
-        #deliverButton::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s;
-        }
-        #deliverButton:not(:disabled):hover::before {
-            left: 100%;
+        
+        .emoji {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-
-        <!-- 1단계: 기부 목표 선택 -->
-        <div class="mb-16 text-center">
-            <div class="step-header justify-center">
-                <span class="step-number">1</span>
-                <h2 class="step-title">결식 우려 아동을 위한 기부 목표를 선택해주세요</h2>
-            </div>
-            <p class="step-description">아이 한 명에게 제공할 식사 수준을 선택하세요</p>
-            <div id="recommendedButtons" class="flex flex-wrap justify-center" style="gap: 16px;">
-                <!-- 버튼은 JavaScript로 생성됩니다 -->
-            </div>
-            <div class="mt-4">
-                <p class="text-sm text-gray-500 text-center">
-                    선택한 목표: <span id="targetDonationValue" class="text-gray-700 font-semibold">5,000원</span>
-                </p>
-                <!-- 총 목표 기부 금액을 저장하고 읽기 위한 숨겨진 슬라이더 -->
-                <input type="range" id="targetDonation" min="5000" max="30000" step="1000" value="5000" class="hidden">
-            </div>
-        </div>
-
-        <!-- 2단계: 주간 기부 금액 설정 -->
-        <div class="mb-16 text-center">
-            <div class="step-header justify-center">
-                <span class="step-number">2</span>
-                <h2 class="step-title">매주 진짜 부담 없이 낼 수 있는 금액을 선택하세요</h2>
-            </div>
-            <div class="slider-container">
-                <label for="weeklyDonation" class="block text-lg font-semibold text-gray-700 mb-2">
-                    매주 기부 금액: <span id="weeklyDonationValue" class="text-blue-600">500원</span>
-                </label>
-                <div class="flex justify-between text-sm text-gray-500 mt-1 px-1">
-                    <span>500원</span>
-                    <span id="weeklyDonationMaxValue">5,000원</span>
-                </div>
-                <input type="range" id="weeklyDonation" min="500" max="5000" step="500" value="500" class="w-full">
-            </div>
-        </div>
-
-        <!-- 3단계: 기부 계획 확인 -->
-        <div class="mb-16 text-center">
-            <div id="resultDisplay" style="position: relative;">
-                <div class="speech-bubble">
-                    사실 아이들에겐 돈보다<br>
-                    <strong>이렇게 꾸준한 지지를 보내는 누군가가 더 필요해요.</strong>
-                </div>
-                <div class="plan-summary">
-                    <div class="summary-item">
-                        <span class="summary-label">기부 기간:</span>
-                        <span id="weeksNeeded" class="summary-value">0주</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">매주 기부:</span>
-                        <span id="weeklyDonationSummary" class="summary-value">500원</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">총 목표:</span>
-                        <span id="targetDonationSummary" class="summary-value">5,000원</span>
-                    </div>
-                </div>
-                <p class="plan-message">
-                    <strong>완료하면 한 아이의 따뜻한 식사를 지원할 수 있어요!</strong>
-                </p>
-            </div>
-        </div>
-
-        <!-- 4단계: 기부 시작 -->
-        <div class="mb-16 text-center">
-            <button id="startButton" class="start-button">
-                기부 시작하기
-            </button>
-        </div>
-
-        <!-- 스탬프 모으기 섹션 (초기에는 숨김) -->
-        <div id="stampSection" class="hidden mt-12">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">나의 주간 스탬프</h2>
-            <p class="text-gray-600 mb-6 leading-relaxed">매주 스탬프를 찍으며 아이들에게 따뜻한 마음을 전달해주세요. <br> (이 스탬프는 실제 기부를 의미하며, 클릭 시 기부통에 돈을 넣는 행위로 간주됩니다.)</p>
-            <div class="stamp-grid" id="stampGrid">
-                <!-- 스탬프 슬롯은 JavaScript로 생성됩니다 -->
-            </div>
-            <p class="text-lg font-semibold text-gray-700 mt-8">
-                총 스탬프: <span id="stampedCount">0</span> / <span id="totalStamps">0</span>
-            </p>
-            <button id="deliverButton" class="mt-8" disabled>
-                마음 전달하기
-            </button>
-        </div>
+    <div class="main-container">
+        <span class="emoji">🍚</span>
+        <h1>따뜻한 마음을<br>전해주세요</h1>
+        <p class="subtitle">결식 우려 아동들에게<br>따뜻한 식사를 선물해보세요</p>
+        <a href="donation.html" class="start-button">
+            기부하기
+        </a>
     </div>
-
-    <script>
-        // DOM 요소 가져오기
-        const targetDonationSlider = document.getElementById('targetDonation'); // 숨겨진 슬라이더
-        const targetDonationValueSpan = document.getElementById('targetDonationValue'); // 표시용 span
-        const weeklyDonationSlider = document.getElementById('weeklyDonation');
-        const weeklyDonationValueSpan = document.getElementById('weeklyDonationValue');
-        const weeklyDonationMaxValueSpan = document.getElementById('weeklyDonationMaxValue');
-        const weeksNeededSpan = document.getElementById('weeksNeeded');
-        const startButton = document.getElementById('startButton');
-        const stampSection = document.getElementById('stampSection');
-        const stampGrid = document.getElementById('stampGrid');
-        const stampedCountSpan = document.getElementById('stampedCount');
-        const totalStampsSpan = document.getElementById('totalStamps');
-        const deliverButton = document.getElementById('deliverButton');
-        const recommendedButtonsContainer = document.getElementById('recommendedButtons');
-
-        let totalStampsNeeded = 0; // 스탬프 총 개수
-
-        // 추천 기부 조합 데이터 (음식 이모지와 함께)
-        const recommendedCombinations = [
-            { total: 5000, weekly: 500, label: "분식집 한 끼", icon: "🍜" },
-            { total: 10000, weekly: 1000, label: "덮밥 한 그릇", icon: "🍛" },
-            { total: 15000, weekly: 1500, label: "세트 메뉴", icon: "🍱" },
-            { total: 20000, weekly: 2000, label: "반찬 가득 정식", icon: "🍽️" },
-            { total: 30000, weekly: 3000, label: "고기 먹는 날", icon: "🍖" }
-        ];
-
-        // 금액 포맷팅 함수
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(amount);
-        }
-
-        // 계산 및 UI 업데이트 함수
-        function updateCalculation() {
-            // targetAmount는 숨겨진 슬라이더의 값으로 읽어옵니다.
-            const targetAmount = parseInt(targetDonationSlider.value);
-            const weeklyDonation = parseInt(weeklyDonationSlider.value);
-
-            // 목표 금액 표시 업데이트 (슬라이더가 아닌 span에 직접 업데이트)
-            targetDonationValueSpan.textContent = formatCurrency(targetAmount);
-            weeklyDonationValueSpan.textContent = formatCurrency(weeklyDonation);
-            
-            // 주간 기부 금액 슬라이더 최대값을 목표 금액에 맞게 조정
-            const weeklyMax = Math.min(targetAmount, 10000); // 최대 10,000원까지
-            weeklyDonationSlider.max = weeklyMax;
-            weeklyDonationMaxValueSpan.textContent = formatCurrency(weeklyMax);
-            
-            // 현재 주간 기부 금액이 새로운 최대값보다 크면 조정
-            if (weeklyDonation > weeklyMax) {
-                weeklyDonationSlider.value = weeklyMax;
-                weeklyDonationValueSpan.textContent = formatCurrency(weeklyMax);
-            }
-
-            let weeksNeeded = 0;
-            const currentWeeklyDonation = parseInt(weeklyDonationSlider.value); // 조정된 값 사용
-            if (currentWeeklyDonation > 0) {
-                weeksNeeded = Math.ceil(targetAmount / currentWeeklyDonation);
-            } else {
-                weeksNeeded = Infinity;
-            }
-
-            // UI 업데이트
-            if (weeksNeeded === Infinity) {
-                weeksNeededSpan.textContent = "지속적인 기부가 필요해요";
-                totalStampsNeeded = 0;
-            } else if (weeksNeeded === 0) {
-                weeksNeededSpan.textContent = "0주";
-                totalStampsNeeded = 0;
-            } else {
-                const months = Math.floor(weeksNeeded / 4);
-                const remainingWeeks = weeksNeeded % 4;
-                let displayString = "";
-                if (months > 0) {
-                    displayString += `${months}달 `;
-                }
-                if (remainingWeeks > 0 || months === 0) {
-                    displayString += `${remainingWeeks}주`;
-                }
-                weeksNeededSpan.textContent = displayString.trim();
-                totalStampsNeeded = weeksNeeded;
-            }
-
-            // 단계별 요약 정보 업데이트
-            const weeklyDonationSummary = document.getElementById('weeklyDonationSummary');
-            const targetDonationSummary = document.getElementById('targetDonationSummary');
-            
-            if (weeklyDonationSummary) {
-                weeklyDonationSummary.textContent = formatCurrency(currentWeeklyDonation);
-            }
-            if (targetDonationSummary) {
-                targetDonationSummary.textContent = formatCurrency(targetAmount);
-            }
-
-            totalStampsSpan.textContent = totalStampsNeeded;
-            updateStampGrid();
-        }
-
-        // 스탬프 그리드 생성 및 업데이트
-        function updateStampGrid() {
-            stampGrid.innerHTML = '';
-            const storedStampedCount = parseInt(localStorage.getItem('stampedCount') || '0');
-            let stampedCount = storedStampedCount;
-
-            if (stampedCount > totalStampsNeeded) {
-                stampedCount = totalStampsNeeded;
-                localStorage.setItem('stampedCount', stampedCount);
-            }
-
-            for (let i = 0; i < totalStampsNeeded; i++) {
-                const stampSlot = document.createElement('div');
-                stampSlot.classList.add('stamp-slot');
-                stampSlot.dataset.index = i;
-
-                if (i < stampedCount) {
-                    stampSlot.classList.add('stamped');
-                    stampSlot.innerHTML = '✔';
-                } else {
-                    stampSlot.innerHTML = `${i + 1}주차`;
-                }
-
-                stampSlot.addEventListener('click', () => {
-                    if (!stampSlot.classList.contains('stamped') && parseInt(stampSlot.dataset.index) === parseInt(stampedCountSpan.textContent)) {
-                        stampSlot.classList.add('stamped');
-                        stampSlot.innerHTML = '✔';
-                        const newStampedCount = parseInt(stampedCountSpan.textContent) + 1;
-                        localStorage.setItem('stampedCount', newStampedCount);
-                        stampedCountSpan.textContent = newStampedCount;
-                        
-                        // 모든 스탬프가 완료되면 전달하기 버튼 활성화
-                        if (newStampedCount === totalStampsNeeded) {
-                            deliverButton.disabled = false;
-                        }
-                    }
-                });
-                stampGrid.appendChild(stampSlot);
-            }
-            stampedCountSpan.textContent = stampedCount;
-            
-            // 전달하기 버튼 상태 업데이트
-            deliverButton.disabled = stampedCount < totalStampsNeeded;
-        }
-
-        // 추천 조합 버튼 생성 함수
-        function createRecommendedButtons() {
-            recommendedCombinations.forEach((combo, index) => {
-                const button = document.createElement('button');
-                button.classList.add('recommended-food-button');
-
-                const iconDiv = document.createElement('div');
-                iconDiv.classList.add('icon');
-                iconDiv.textContent = combo.icon;
-
-                const labelSpan = document.createElement('span');
-                labelSpan.textContent = combo.label;
-
-                button.appendChild(iconDiv);
-                button.appendChild(labelSpan);
-
-                button.addEventListener('click', () => {
-                    // 모든 버튼에서 'selected' 클래스 제거
-                    document.querySelectorAll('.recommended-food-button').forEach(btn => {
-                        btn.classList.remove('selected');
-                    });
-                    // 클릭된 버튼에 'selected' 클래스 추가
-                    button.classList.add('selected');
-
-                    targetDonationSlider.value = combo.total; // 숨겨진 슬라이더 값 업데이트
-                    weeklyDonationSlider.value = combo.weekly;
-                    updateCalculation(); // 슬라이더 값 변경 후 계산 업데이트
-                });
-                recommendedButtonsContainer.appendChild(button);
-
-                // 페이지 로드 시 첫 번째 버튼을 기본으로 선택
-                if (index === 0) {
-                    button.click();
-                }
-            });
-        }
-
-        // 이벤트 리스너
-        // targetDonationSlider는 숨겨져 있으므로 input 이벤트는 weeklyDonationSlider에만 필요
-        weeklyDonationSlider.addEventListener('input', updateCalculation);
-
-        startButton.addEventListener('click', () => {
-            stampSection.classList.remove('hidden');
-            stampSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            updateStampGrid();
-        });
-
-        deliverButton.addEventListener('click', () => {
-            if (!deliverButton.disabled) {
-                alert('아이들에게 따뜻한 마음이 전달되었습니다! 감사합니다. 💝');
-                // 선택적으로 스탬프 초기화
-                localStorage.removeItem('stampedCount');
-                updateCalculation();
-            }
-        });
-
-        // 툴팁 JavaScript 제거 (이제 항상 보임)
-
-        // 페이지 로드 시 초기화
-        window.onload = () => {
-            createRecommendedButtons(); // 추천 조합 버튼 생성 및 첫 번째 버튼 자동 클릭
-            // updateCalculation()은 createRecommendedButtons 내에서 첫 번째 버튼 클릭 시 호출됨
-        };
-    </script>
 </body>
 </html>
