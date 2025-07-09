@@ -3,34 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>결식 우려 아동 기부</title>
+    <title>사회적 기부 플랫폼</title>
     <!-- Pretendard 폰트 (Inter로 대체, 유사한 굵기 사용) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f9fafb;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 24px;
+            padding: 40px 24px;
             box-sizing: border-box;
             margin: 0;
+            min-height: 100vh;
         }
         
-        .main-container {
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             text-align: center;
-            max-width: 500px;
-            width: 100%;
         }
         
         h1 {
             color: #1a1a1a;
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
             line-height: 1.2;
         }
         
@@ -42,41 +38,101 @@
             line-height: 1.5;
         }
         
-        .start-button {
-            background-color: #007aff;
-            color: #ffffff;
-            font-size: 1.25rem;
-            font-weight: 600;
-            padding: 20px 50px;
-            border-radius: 16px;
-            border: none;
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 2rem;
+        }
+        
+        .category-button {
+            background-color: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px 16px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: none;
             text-decoration: none;
-            display: inline-block;
-        }
-        
-        .start-button:hover {
-            background-color: #0066d6;
-            transform: translateY(-2px);
-        }
-        
-        .emoji {
-            font-size: 4rem;
-            margin-bottom: 2rem;
+            color: #374151;
+            font-size: 1rem;
+            font-weight: 500;
             display: block;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .category-button:hover {
+            border-color: #007aff;
+            background-color: #f0f9ff;
+            color: #007aff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
+        }
+        
+        .category-button.highlight {
+            background-color: #007aff;
+            border-color: #007aff;
+            color: #ffffff;
+        }
+        
+        .category-button.highlight:hover {
+            background-color: #0066d6;
+            border-color: #0066d6;
+            color: #ffffff;
+        }
+        
+        @media (max-width: 640px) {
+            .categories-grid {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 12px;
+            }
+            
+            .category-button {
+                padding: 16px 12px;
+                font-size: 0.9rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <span class="emoji">🍚</span>
-        <h1>따뜻한 마음을<br>전해주세요</h1>
-        <p class="subtitle">결식 우려 아동들에게<br>따뜻한 식사를 선물해보세요</p>
-        <a href="donation.html" class="start-button">
-            기부하기
-        </a>
+    <div class="container">
+        <h1>어떤 대상/이슈에 관심 있으세요?</h1>
+        <p class="subtitle">관심 있는 분야를 선택해주세요</p>
+        
+        <div class="categories-grid">
+            <a href="donation.html" class="category-button highlight">결식 우려 아동</a>
+            <button class="category-button">수용자 자녀</button>
+            <button class="category-button">문화소외계층</button>
+            <button class="category-button">학교폭력피해자</button>
+            <button class="category-button">무연고 사망자</button>
+            <button class="category-button">농/청각 장애인</button>
+            <button class="category-button">한부모(미혼모,미혼부)</button>
+            <button class="category-button">교제폭력피해자</button>
+            <button class="category-button">홈리스</button>
+            <button class="category-button">느린 학습자</button>
+            <button class="category-button">청년 구직자</button>
+            <button class="category-button">주거취약계층</button>
+            <button class="category-button">경계선 발달장애인</button>
+            <button class="category-button">유기견</button>
+            <button class="category-button">동물권</button>
+            <button class="category-button">해양 쓰레기 문제</button>
+            <button class="category-button">의류 폐기물</button>
+            <button class="category-button">자립준비청년</button>
+            <button class="category-button">청소년성소수자</button>
+        </div>
     </div>
+
+    <script>
+        // 다른 버튼들 클릭 시 준비 중 메시지
+        document.querySelectorAll('.category-button:not([href])').forEach(button => {
+            button.addEventListener('click', () => {
+                alert('해당 카테고리는 준비 중입니다. 곧 서비스할 예정이에요! 😊');
+            });
+        });
+    </script>
 </body>
 </html>
