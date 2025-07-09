@@ -214,8 +214,18 @@
         // 다른 카드들 클릭 시 준비 중 메시지
         document.querySelectorAll('.category-card:not([href])').forEach(card => {
             card.addEventListener('click', () => {
-                alert('해당 카테고리는 준비 중입니다. 곧 서비스할 예정이에요! 😊');
+                const title = card.querySelector('.category-title').textContent.trim();
+                alert(`"${title}" 카테고리는 준비 중입니다.\n현재는 "결식 우려 아동" 기부만 가능해요! 😊`);
             });
+        });
+        
+        // 페이지 로드 시 부드러운 애니메이션
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-in-out';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
         });
     </script>
 </body>

@@ -466,6 +466,26 @@
             transform: translateY(-2px);
         }
         
+        .back-to-main-button {
+            background-color: transparent;
+            color: #666666;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 16px 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+            margin: 16px auto 0;
+            display: block;
+            text-decoration: underline;
+        }
+        
+        .back-to-main-button:hover {
+            color: #007aff;
+        }
+        
         @media (max-width: 480px) {
             .completion-title {
                 font-size: 1.5rem;
@@ -768,13 +788,18 @@
                 </div>
                 
                 <!-- 루틴 추가 버튼 -->
-                <button class="routine-button">
+                <button id="routineButton" class="routine-button">
                     + 내 루틴에 추가
                 </button>
                 
                 <!-- 이번 주 목표 달성하기 버튼 -->
                 <button id="weeklyGoalButton" class="weekly-goal-button">
                     이번 주 목표 달성하기
+                </button>
+                
+                <!-- 메인으로 돌아가기 버튼 -->
+                <button id="backToMainButton" class="back-to-main-button">
+                    다른 카테고리 보기
                 </button>
             </div>
         </div>
@@ -967,12 +992,29 @@
             document.getElementById('completionSection').classList.remove('hidden');
         });
 
-        // 이번 주 목표 달성하기 버튼 이벤트
+        // 완료 화면 버튼들 이벤트
         document.addEventListener('DOMContentLoaded', () => {
+            // 루틴 추가 버튼
+            const routineButton = document.getElementById('routineButton');
+            if (routineButton) {
+                routineButton.addEventListener('click', () => {
+                    alert('루틴에 추가되었습니다! 매주 알림을 받을 수 있어요. 📅');
+                });
+            }
+            
+            // 이번 주 목표 달성하기 버튼
             const weeklyGoalButton = document.getElementById('weeklyGoalButton');
             if (weeklyGoalButton) {
                 weeklyGoalButton.addEventListener('click', () => {
                     alert('이번 주 목표 달성을 위한 기능이 곧 추가될 예정입니다! 💪');
+                });
+            }
+            
+            // 메인으로 돌아가기 버튼
+            const backToMainButton = document.getElementById('backToMainButton');
+            if (backToMainButton) {
+                backToMainButton.addEventListener('click', () => {
+                    window.location.href = 'index.html';
                 });
             }
         });
