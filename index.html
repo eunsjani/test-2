@@ -4,228 +4,423 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>사회적 기부 플랫폼</title>
-    <!-- Pretendard 폰트 (Inter로 대체, 유사한 굵기 사용) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #2a2a2a;
-            padding: 40px 20px;
-            box-sizing: border-box;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
+            padding: 0;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .header {
             text-align: center;
+            padding: 40px 20px 20px;
+            color: white;
         }
         
-        h1 {
-            color: #ffffff;
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            line-height: 1.2;
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         
-        .subtitle {
-            color: #cccccc;
-            font-size: 1.2rem;
-            font-weight: 400;
-            margin-bottom: 3rem;
-            line-height: 1.5;
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0;
         }
         
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 0;
-            margin-top: 2rem;
+        .cards-container {
+            position: relative;
+            height: 70vh;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            perspective: 1000px;
         }
         
-        .category-card {
-            padding: 40px 30px;
+        .card-stack {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-            border: none;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transform-style: preserve-3d;
+        }
+        
+        .card-stack:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+        
+        .card-stack.expanded {
+            transform: translateY(-50px) rotateY(10deg);
+            z-index: 1000;
+        }
+        
+        .card-content {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            padding: 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
         
-        .category-card:hover {
-            transform: scale(1.02);
-            filter: brightness(1.1);
+        .card-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
         }
         
-        .category-title {
-            font-size: 2.2rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
+        .card-stack:hover .card-content::before {
+            transform: translateX(100%);
         }
         
-        .category-subtitle {
+        .card-emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        
+        .card-subtitle {
             font-size: 0.9rem;
             opacity: 0.8;
-            margin-top: 8px;
-            font-weight: 500;
+            margin-bottom: 15px;
         }
         
-        /* 각 카테고리별 색상 */
-        .cat-1 { background: linear-gradient(135deg, #FF6B6B, #FF8E8E); color: white; }
-        .cat-2 { background: linear-gradient(135deg, #4ECDC4, #44A08D); color: white; }
-        .cat-3 { background: linear-gradient(135deg, #45B7D1, #96C6EA); color: white; }
-        .cat-4 { background: linear-gradient(135deg, #F7DC6F, #F4D03F); color: #2c3e50; }
-        .cat-5 { background: linear-gradient(135deg, #BB8FCE, #A569BD); color: white; }
-        .cat-6 { background: linear-gradient(135deg, #58D68D, #52C878); color: white; }
-        .cat-7 { background: linear-gradient(135deg, #F8C471, #F39C12); color: white; }
-        .cat-8 { background: linear-gradient(135deg, #EC7063, #E74C3C); color: white; }
-        .cat-9 { background: linear-gradient(135deg, #85C1E9, #5DADE2); color: white; }
-        .cat-10 { background: linear-gradient(135deg, #82E0AA, #58D68D); color: white; }
-        .cat-11 { background: linear-gradient(135deg, #F9E79F, #F7DC6F); color: #2c3e50; }
-        .cat-12 { background: linear-gradient(135deg, #D7BDE2, #BB8FCE); color: white; }
-        .cat-13 { background: linear-gradient(135deg, #AED6F1, #85C1E9); color: white; }
-        .cat-14 { background: linear-gradient(135deg, #FADBD8, #F1948A); color: #2c3e50; }
-        .cat-15 { background: linear-gradient(135deg, #D5DBDB, #BDC3C7); color: #2c3e50; }
-        .cat-16 { background: linear-gradient(135deg, #A3E4D7, #76D7C4); color: white; }
-        .cat-17 { background: linear-gradient(135deg, #F8D7DA, #F5B7B1); color: #2c3e50; }
-        .cat-18 { background: linear-gradient(135deg, #D1F2EB, #A3E4D7); color: #2c3e50; }
-        .cat-19 { background: linear-gradient(135deg, #EBDEF0, #D7BDE2); color: #2c3e50; }
+        .card-description {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            line-height: 1.4;
+            max-width: 280px;
+        }
         
-        .highlight {
-            background: linear-gradient(135deg, #007AFF, #0056CC) !important;
-            color: white !important;
-            box-shadow: 0 8px 25px rgba(0, 122, 255, 0.3);
+        /* 각 카드별 색상 및 위치 */
+        .card-1 { 
+            background: linear-gradient(135deg, #FF6B6B, #FF8E8E); 
+            color: white;
+            z-index: 19;
+            transform: translateY(0px) rotateZ(0deg);
+        }
+        .card-2 { 
+            background: linear-gradient(135deg, #4ECDC4, #44A08D); 
+            color: white;
+            z-index: 18;
+            transform: translateY(5px) rotateZ(-1deg);
+        }
+        .card-3 { 
+            background: linear-gradient(135deg, #45B7D1, #96C6EA); 
+            color: white;
+            z-index: 17;
+            transform: translateY(10px) rotateZ(1deg);
+        }
+        .card-4 { 
+            background: linear-gradient(135deg, #F7DC6F, #F4D03F); 
+            color: #2c3e50;
+            z-index: 16;
+            transform: translateY(15px) rotateZ(-0.5deg);
+        }
+        .card-5 { 
+            background: linear-gradient(135deg, #BB8FCE, #A569BD); 
+            color: white;
+            z-index: 15;
+            transform: translateY(20px) rotateZ(0.5deg);
+        }
+        .card-6 { 
+            background: linear-gradient(135deg, #58D68D, #52C878); 
+            color: white;
+            z-index: 14;
+            transform: translateY(25px) rotateZ(-1deg);
+        }
+        .card-7 { 
+            background: linear-gradient(135deg, #F8C471, #F39C12); 
+            color: white;
+            z-index: 13;
+            transform: translateY(30px) rotateZ(1deg);
+        }
+        .card-8 { 
+            background: linear-gradient(135deg, #EC7063, #E74C3C); 
+            color: white;
+            z-index: 12;
+            transform: translateY(35px) rotateZ(-0.5deg);
+        }
+        .card-9 { 
+            background: linear-gradient(135deg, #85C1E9, #5DADE2); 
+            color: white;
+            z-index: 11;
+            transform: translateY(40px) rotateZ(0.5deg);
+        }
+        .card-10 { 
+            background: linear-gradient(135deg, #82E0AA, #58D68D); 
+            color: white;
+            z-index: 10;
+            transform: translateY(45px) rotateZ(-1deg);
+        }
+        .card-11 { 
+            background: linear-gradient(135deg, #F9E79F, #F7DC6F); 
+            color: #2c3e50;
+            z-index: 9;
+            transform: translateY(50px) rotateZ(1deg);
+        }
+        .card-12 { 
+            background: linear-gradient(135deg, #D7BDE2, #BB8FCE); 
+            color: white;
+            z-index: 8;
+            transform: translateY(55px) rotateZ(-0.5deg);
+        }
+        .card-13 { 
+            background: linear-gradient(135deg, #AED6F1, #85C1E9); 
+            color: white;
+            z-index: 7;
+            transform: translateY(60px) rotateZ(0.5deg);
+        }
+        .card-14 { 
+            background: linear-gradient(135deg, #FADBD8, #F1948A); 
+            color: #2c3e50;
+            z-index: 6;
+            transform: translateY(65px) rotateZ(-1deg);
+        }
+        .card-15 { 
+            background: linear-gradient(135deg, #D5DBDB, #BDC3C7); 
+            color: #2c3e50;
+            z-index: 5;
+            transform: translateY(70px) rotateZ(1deg);
+        }
+        .card-16 { 
+            background: linear-gradient(135deg, #A3E4D7, #76D7C4); 
+            color: white;
+            z-index: 4;
+            transform: translateY(75px) rotateZ(-0.5deg);
+        }
+        .card-17 { 
+            background: linear-gradient(135deg, #F8D7DA, #F5B7B1); 
+            color: #2c3e50;
+            z-index: 3;
+            transform: translateY(80px) rotateZ(0.5deg);
+        }
+        .card-18 { 
+            background: linear-gradient(135deg, #D1F2EB, #A3E4D7); 
+            color: #2c3e50;
+            z-index: 2;
+            transform: translateY(85px) rotateZ(-1deg);
+        }
+        .card-19 { 
+            background: linear-gradient(135deg, #EBDEF0, #D7BDE2); 
+            color: #2c3e50;
+            z-index: 1;
+            transform: translateY(90px) rotateZ(1deg);
+        }
+        
+        .card-stack.active {
+            transform: translateY(-20px) rotateZ(0deg) scale(1.05);
+            z-index: 1000;
+        }
+        
+        .spread-mode .card-stack {
+            position: relative;
+            display: inline-block;
+            width: 280px;
+            height: 180px;
+            margin: 10px;
+            transform: none !important;
+        }
+        
+        .spread-container {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .spread-mode .spread-container {
+            display: grid;
+        }
+        
+        .spread-mode .cards-container {
+            display: none;
+        }
+        
+        .toggle-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 2000;
+        }
+        
+        .toggle-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
         
         @media (max-width: 768px) {
-            .categories-grid {
-                grid-template-columns: 1fr;
-                gap: 0;
+            .cards-container {
+                max-width: 350px;
             }
             
-            .category-card {
-                padding: 30px 25px;
+            .card-content {
+                padding: 20px;
             }
             
-            .category-title {
-                font-size: 1.8rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
+            .card-title {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h1>어떤 대상/이슈에 관심 있으세요?</h1>
-        <p class="subtitle">관심 있는 분야를 선택해주세요</p>
-        
-        <div class="categories-grid">
-            <a href="cause-info.html" class="category-card highlight">
-                <div class="category-title">결식 우려<br>아동</div>
-                <div class="category-subtitle">Available now</div>
-            </a>
-            <button class="category-card cat-1">
-                <div class="category-title">수용자<br>자녀</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-2">
-                <div class="category-title">문화소외<br>계층</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-3">
-                <div class="category-title">학교폭력<br>피해자</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-4">
-                <div class="category-title">무연고<br>사망자</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-5">
-                <div class="category-title">농/청각<br>장애인</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-6">
-                <div class="category-title">한부모<br>(미혼모,미혼부)</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-7">
-                <div class="category-title">교제폭력<br>피해자</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-8">
-                <div class="category-title">홈리스</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-9">
-                <div class="category-title">느린<br>학습자</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-10">
-                <div class="category-title">청년<br>구직자</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-11">
-                <div class="category-title">주거취약<br>계층</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-12">
-                <div class="category-title">경계선<br>발달장애인</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-13">
-                <div class="category-title">유기견</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-14">
-                <div class="category-title">동물권</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-15">
-                <div class="category-title">해양 쓰레기<br>문제</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-16">
-                <div class="category-title">의류<br>폐기물</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-17">
-                <div class="category-title">자립준비<br>청년</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-            <button class="category-card cat-18">
-                <div class="category-title">청소년<br>성소수자</div>
-                <div class="category-subtitle">Coming soon</div>
-            </button>
-        </div>
+        <p>카드를 클릭하여 탐색해보세요</p>
+    </div>
+    
+    <button class="toggle-button" onclick="toggleView()">전체 보기</button>
+    
+    <div class="cards-container" id="cardsContainer">
+        <!-- 카드들이 JavaScript로 생성됩니다 -->
+    </div>
+    
+    <div class="spread-container" id="spreadContainer">
+        <!-- 전체 보기 모드용 -->
     </div>
 
     <script>
-        // 다른 카드들 클릭 시 준비 중 메시지
-        document.querySelectorAll('.category-card:not([href])').forEach(card => {
-            card.addEventListener('click', () => {
-                const title = card.querySelector('.category-title').textContent.trim();
-                alert(`"${title}" 카테고리는 준비 중입니다.\n현재는 "결식 우려 아동" 기부만 가능해요! 😊`);
-            });
-        });
+        const categories = [
+            { title: "결식 우려\n아동", emoji: "🍽️", description: "굶주린 아이들에게 따뜻한 식사를", available: true, href: "cause-info.html" },
+            { title: "수용자\n자녀", emoji: "👨‍👩‍👧‍👦", description: "교정시설 수용자 자녀들의 건강한 성장", available: false },
+            { title: "문화소외\n계층", emoji: "🎭", description: "문화 접근성이 부족한 계층 지원", available: false },
+            { title: "학교폭력\n피해자", emoji: "🛡️", description: "학교폭력 피해학생들의 회복 지원", available: false },
+            { title: "무연고\n사망자", emoji: "🕊️", description: "외로운 죽음을 맞은 분들의 마지막 길", available: false },
+            { title: "농/청각\n장애인", emoji: "🤟", description: "소통의 장벽을 허무는 지원", available: false },
+            { title: "한부모\n(미혼모,미혼부)", emoji: "👨‍👧", description: "홀로 아이를 키우는 부모들의 지원", available: false },
+            { title: "교제폭력\n피해자", emoji: "💜", description: "데이트 폭력 피해자들의 안전한 일상", available: false },
+            { title: "홈리스", emoji: "🏠", description: "거리에서 생활하는 이들의 자립 지원", available: false },
+            { title: "느린\n학습자", emoji: "📚", description: "학습 속도가 다른 아이들의 성장 지원", available: false },
+            { title: "청년\n구직자", emoji: "💼", description: "취업 준비에 어려움을 겪는 청년들", available: false },
+            { title: "주거취약\n계층", emoji: "🏡", description: "안정적인 주거지를 찾는 이들을 위해", available: false },
+            { title: "경계선\n발달장애인", emoji: "🧩", description: "경계선 지능 발달장애인들의 사회적응", available: false },
+            { title: "유기견", emoji: "🐕", description: "버려진 반려동물들의 새로운 가족 찾기", available: false },
+            { title: "동물권", emoji: "🐾", description: "동물의 권리와 복지 향상을 위해", available: false },
+            { title: "해양 쓰레기\n문제", emoji: "🌊", description: "바다를 오염시키는 쓰레기 문제 해결", available: false },
+            { title: "의류\n폐기물", emoji: "👕", description: "패스트 패션으로 인한 의류 폐기물 감소", available: false },
+            { title: "자립준비\n청년", emoji: "🎓", description: "보호종료 청년들의 사회 자립 지원", available: false },
+            { title: "청소년\n성소수자", emoji: "🏳️‍🌈", description: "성소수자 청소년들의 안전한 성장", available: false }
+        ];
         
-        // 페이지 로드 시 부드러운 애니메이션
+        let isSpreadMode = false;
+        let currentCardIndex = 0;
+        
+        function createCards() {
+            const container = document.getElementById('cardsContainer');
+            const spreadContainer = document.getElementById('spreadContainer');
+            
+            categories.forEach((category, index) => {
+                // 스택 모드용 카드
+                const card = document.createElement('div');
+                card.className = `card-stack card-${index + 1}`;
+                card.innerHTML = `
+                    <div class="card-content">
+                        <span class="card-emoji">${category.emoji}</span>
+                        <h3 class="card-title">${category.title}</h3>
+                        <p class="card-subtitle">${category.available ? 'Available now' : 'Coming soon'}</p>
+                        <p class="card-description">${category.description}</p>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => handleCardClick(category, index));
+                container.appendChild(card);
+                
+                // 전체 보기 모드용 카드
+                const spreadCard = card.cloneNode(true);
+                spreadCard.addEventListener('click', () => handleCardClick(category, index));
+                spreadContainer.appendChild(spreadCard);
+            });
+        }
+        
+        function handleCardClick(category, index) {
+            if (category.available) {
+                window.location.href = category.href;
+            } else {
+                alert(`"${category.title.replace('\n', ' ')}" 카테고리는 준비 중입니다.\n현재는 "결식 우려 아동" 기부만 가능해요! 😊`);
+            }
+        }
+        
+        function toggleView() {
+            isSpreadMode = !isSpreadMode;
+            const body = document.body;
+            const button = document.querySelector('.toggle-button');
+            
+            if (isSpreadMode) {
+                body.classList.add('spread-mode');
+                button.textContent = '스택 보기';
+            } else {
+                body.classList.remove('spread-mode');
+                button.textContent = '전체 보기';
+            }
+        }
+        
+        // 카드 스택 인터랙션
         document.addEventListener('DOMContentLoaded', () => {
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease-in-out';
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
+            createCards();
+            
+            // 카드 호버 효과
+            const cards = document.querySelectorAll('.card-stack');
+            cards.forEach((card, index) => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = `translateY(-${index * 5 + 20}px) rotateZ(0deg) scale(1.02)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    const originalTransform = card.className.includes('card-1') ? 'translateY(0px) rotateZ(0deg)' :
+                                           card.className.includes('card-2') ? 'translateY(5px) rotateZ(-1deg)' :
+                                           card.className.includes('card-3') ? 'translateY(10px) rotateZ(1deg)' :
+                                           `translateY(${index * 5}px) rotateZ(${index % 2 === 0 ? '0.5deg' : '-0.5deg'})`;
+                    card.style.transform = originalTransform;
+                });
+            });
         });
     </script>
 </body>
