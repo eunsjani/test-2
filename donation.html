@@ -286,6 +286,201 @@
             transform: translateY(-2px);
         }
 
+        /* 완료 화면 스타일 */
+        #completionSection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .completion-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        /* 배경 도형들 */
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .shape {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .shape-star {
+            font-size: 24px;
+            color: #FFD700;
+        }
+        
+        .shape-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #007AFF;
+        }
+        
+        .shape-square {
+            width: 18px;
+            height: 18px;
+            background: #FF3B30;
+            transform: rotate(45deg);
+        }
+        
+        .shape-diamond {
+            width: 16px;
+            height: 16px;
+            background: #FF9500;
+            transform: rotate(45deg);
+        }
+        
+        .shape-triangle {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 18px solid #34C759;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        /* 체크 아이콘 */
+        .check-icon {
+            margin: 80px auto 40px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .check-circle {
+            width: 120px;
+            height: 120px;
+            background: #FFD700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .check-mark {
+            font-size: 60px;
+            color: #000;
+            font-weight: bold;
+            animation: checkAppear 0.6s ease-out 0.3s both;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes checkAppear {
+            0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        
+        /* 완료 메시지 */
+        .completion-content {
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .completion-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+        
+        .completion-subtitle {
+            font-size: 1rem;
+            color: #666666;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        /* 버튼 스타일 */
+        .routine-button {
+            background-color: #f8f9fa;
+            color: #007aff;
+            border: 2px solid #e9ecef;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 16px 32px;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto 16px;
+            display: block;
+        }
+        
+        .routine-button:hover {
+            background-color: #007aff;
+            color: #ffffff;
+            border-color: #007aff;
+        }
+        
+        .weekly-goal-button {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 18px 32px;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .weekly-goal-button:hover {
+            background-color: #333333;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 480px) {
+            .completion-title {
+                font-size: 1.5rem;
+            }
+            
+            .check-circle {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .check-mark {
+                font-size: 50px;
+            }
+        }
+
         /* 말풍선 스타일 */
         .speech-bubble {
             position: absolute;
@@ -537,19 +732,51 @@
             </button>
         </div>
 
-        <!-- 스탬프 모으기 섹션 (초기에는 숨김) -->
-        <div id="stampSection" class="hidden mt-12">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">나의 주간 스탬프</h2>
-            <p class="text-gray-600 mb-6 leading-relaxed">매주 스탬프를 찍으며 아이들에게 따뜻한 마음을 전달해주세요. <br> (이 스탬프는 실제 기부를 의미하며, 클릭 시 기부통에 돈을 넣는 행위로 간주됩니다.)</p>
-            <div class="stamp-grid" id="stampGrid">
-                <!-- 스탬프 슬롯은 JavaScript로 생성됩니다 -->
+        <!-- 설정 완료 화면 (초기에는 숨김) -->
+        <div id="completionSection" class="hidden">
+            <div class="completion-container">
+                <!-- 배경 도형들 -->
+                <div class="floating-shapes">
+                    <div class="shape shape-star" style="top: 10%; left: 15%; animation-delay: 0s;">⭐</div>
+                    <div class="shape shape-circle" style="top: 20%; right: 20%; animation-delay: 0.5s;"></div>
+                    <div class="shape shape-square" style="top: 15%; left: 60%; animation-delay: 1s;"></div>
+                    <div class="shape shape-diamond" style="top: 30%; left: 25%; animation-delay: 1.5s;"></div>
+                    <div class="shape shape-triangle" style="top: 35%; right: 15%; animation-delay: 2s;"></div>
+                    <div class="shape shape-star" style="top: 45%; left: 70%; animation-delay: 2.5s;">⭐</div>
+                    <div class="shape shape-circle" style="top: 55%; left: 10%; animation-delay: 3s;"></div>
+                    <div class="shape shape-square" style="top: 60%; right: 25%; animation-delay: 3.5s;"></div>
+                    <div class="shape shape-diamond" style="top: 70%; left: 45%; animation-delay: 4s;"></div>
+                    <div class="shape shape-triangle" style="top: 75%; right: 10%; animation-delay: 4.5s;"></div>
+                    <div class="shape shape-star" style="bottom: 20%; left: 35%; animation-delay: 5s;">⭐</div>
+                    <div class="shape shape-circle" style="bottom: 25%; right: 35%; animation-delay: 5.5s;"></div>
+                </div>
+                
+                <!-- 메인 체크 아이콘 -->
+                <div class="check-icon">
+                    <div class="check-circle">
+                        <div class="check-mark">✓</div>
+                    </div>
+                </div>
+                
+                <!-- 완료 메시지 -->
+                <div class="completion-content">
+                    <h1 class="completion-title">루틴을 완료했어요!</h1>
+                    <p class="completion-subtitle">
+                        꾸준히 하면 분명히 달라질 거예요.<br>
+                        내 루틴에 추가할까요?
+                    </p>
+                </div>
+                
+                <!-- 루틴 추가 버튼 -->
+                <button class="routine-button">
+                    + 내 루틴에 추가
+                </button>
+                
+                <!-- 이번 주 목표 달성하기 버튼 -->
+                <button id="weeklyGoalButton" class="weekly-goal-button">
+                    이번 주 목표 달성하기
+                </button>
             </div>
-            <p class="text-lg font-semibold text-gray-700 mt-8">
-                총 스탬프: <span id="stampedCount">0</span> / <span id="totalStamps">0</span>
-            </p>
-            <button id="deliverButton" class="mt-8" disabled>
-                마음 전달하기
-            </button>
         </div>
     </div>
 
@@ -737,17 +964,16 @@
         weeklyDonationSlider.addEventListener('input', updateCalculation);
 
         startButton.addEventListener('click', () => {
-            stampSection.classList.remove('hidden');
-            stampSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            updateStampGrid();
+            document.getElementById('completionSection').classList.remove('hidden');
         });
 
-        deliverButton.addEventListener('click', () => {
-            if (!deliverButton.disabled) {
-                alert('아이들에게 따뜻한 마음이 전달되었습니다! 감사합니다. 💝');
-                // 선택적으로 스탬프 초기화
-                localStorage.removeItem('stampedCount');
-                updateCalculation();
+        // 이번 주 목표 달성하기 버튼 이벤트
+        document.addEventListener('DOMContentLoaded', () => {
+            const weeklyGoalButton = document.getElementById('weeklyGoalButton');
+            if (weeklyGoalButton) {
+                weeklyGoalButton.addEventListener('click', () => {
+                    alert('이번 주 목표 달성을 위한 기능이 곧 추가될 예정입니다! 💪');
+                });
             }
         });
 
