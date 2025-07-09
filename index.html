@@ -9,29 +9,29 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9fafb;
-            padding: 40px 24px;
+            background-color: #2a2a2a;
+            padding: 40px 20px;
             box-sizing: border-box;
             margin: 0;
             min-height: 100vh;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             text-align: center;
         }
         
         h1 {
-            color: #1a1a1a;
+            color: #ffffff;
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 1rem;
             line-height: 1.2;
         }
         
         .subtitle {
-            color: #666666;
+            color: #cccccc;
             font-size: 1.2rem;
             font-weight: 400;
             margin-bottom: 3rem;
@@ -40,56 +40,83 @@
         
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0;
             margin-top: 2rem;
         }
         
-        .category-button {
-            background-color: #ffffff;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 20px 16px;
+        .category-card {
+            padding: 40px 30px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            color: #374151;
-            font-size: 1rem;
-            font-weight: 500;
             display: block;
-            text-align: center;
-            line-height: 1.4;
+            text-align: left;
+            border: none;
+            position: relative;
+            overflow: hidden;
         }
         
-        .category-button:hover {
-            border-color: #007aff;
-            background-color: #f0f9ff;
-            color: #007aff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
+        .category-card:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
         }
         
-        .category-button.highlight {
-            background-color: #007aff;
-            border-color: #007aff;
-            color: #ffffff;
+        .category-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
         }
         
-        .category-button.highlight:hover {
-            background-color: #0066d6;
-            border-color: #0066d6;
-            color: #ffffff;
+        .category-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 8px;
+            font-weight: 500;
         }
         
-        @media (max-width: 640px) {
+        /* 각 카테고리별 색상 */
+        .cat-1 { background: linear-gradient(135deg, #FF6B6B, #FF8E8E); color: white; }
+        .cat-2 { background: linear-gradient(135deg, #4ECDC4, #44A08D); color: white; }
+        .cat-3 { background: linear-gradient(135deg, #45B7D1, #96C6EA); color: white; }
+        .cat-4 { background: linear-gradient(135deg, #F7DC6F, #F4D03F); color: #2c3e50; }
+        .cat-5 { background: linear-gradient(135deg, #BB8FCE, #A569BD); color: white; }
+        .cat-6 { background: linear-gradient(135deg, #58D68D, #52C878); color: white; }
+        .cat-7 { background: linear-gradient(135deg, #F8C471, #F39C12); color: white; }
+        .cat-8 { background: linear-gradient(135deg, #EC7063, #E74C3C); color: white; }
+        .cat-9 { background: linear-gradient(135deg, #85C1E9, #5DADE2); color: white; }
+        .cat-10 { background: linear-gradient(135deg, #82E0AA, #58D68D); color: white; }
+        .cat-11 { background: linear-gradient(135deg, #F9E79F, #F7DC6F); color: #2c3e50; }
+        .cat-12 { background: linear-gradient(135deg, #D7BDE2, #BB8FCE); color: white; }
+        .cat-13 { background: linear-gradient(135deg, #AED6F1, #85C1E9); color: white; }
+        .cat-14 { background: linear-gradient(135deg, #FADBD8, #F1948A); color: #2c3e50; }
+        .cat-15 { background: linear-gradient(135deg, #D5DBDB, #BDC3C7); color: #2c3e50; }
+        .cat-16 { background: linear-gradient(135deg, #A3E4D7, #76D7C4); color: white; }
+        .cat-17 { background: linear-gradient(135deg, #F8D7DA, #F5B7B1); color: #2c3e50; }
+        .cat-18 { background: linear-gradient(135deg, #D1F2EB, #A3E4D7); color: #2c3e50; }
+        .cat-19 { background: linear-gradient(135deg, #EBDEF0, #D7BDE2); color: #2c3e50; }
+        
+        .highlight {
+            background: linear-gradient(135deg, #007AFF, #0056CC) !important;
+            color: white !important;
+            box-shadow: 0 8px 25px rgba(0, 122, 255, 0.3);
+        }
+        
+        @media (max-width: 768px) {
             .categories-grid {
-                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-                gap: 12px;
+                grid-template-columns: 1fr;
+                gap: 0;
             }
             
-            .category-button {
-                padding: 16px 12px;
-                font-size: 0.9rem;
+            .category-card {
+                padding: 30px 25px;
+            }
+            
+            .category-title {
+                font-size: 1.8rem;
             }
             
             h1 {
@@ -104,32 +131,89 @@
         <p class="subtitle">관심 있는 분야를 선택해주세요</p>
         
         <div class="categories-grid">
-            <a href="donation.html" class="category-button highlight">결식 우려 아동</a>
-            <button class="category-button">수용자 자녀</button>
-            <button class="category-button">문화소외계층</button>
-            <button class="category-button">학교폭력피해자</button>
-            <button class="category-button">무연고 사망자</button>
-            <button class="category-button">농/청각 장애인</button>
-            <button class="category-button">한부모(미혼모,미혼부)</button>
-            <button class="category-button">교제폭력피해자</button>
-            <button class="category-button">홈리스</button>
-            <button class="category-button">느린 학습자</button>
-            <button class="category-button">청년 구직자</button>
-            <button class="category-button">주거취약계층</button>
-            <button class="category-button">경계선 발달장애인</button>
-            <button class="category-button">유기견</button>
-            <button class="category-button">동물권</button>
-            <button class="category-button">해양 쓰레기 문제</button>
-            <button class="category-button">의류 폐기물</button>
-            <button class="category-button">자립준비청년</button>
-            <button class="category-button">청소년성소수자</button>
+            <a href="donation.html" class="category-card highlight">
+                <div class="category-title">결식 우려<br>아동</div>
+                <div class="category-subtitle">Available now</div>
+            </a>
+            <button class="category-card cat-1">
+                <div class="category-title">수용자<br>자녀</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-2">
+                <div class="category-title">문화소외<br>계층</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-3">
+                <div class="category-title">학교폭력<br>피해자</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-4">
+                <div class="category-title">무연고<br>사망자</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-5">
+                <div class="category-title">농/청각<br>장애인</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-6">
+                <div class="category-title">한부모<br>(미혼모,미혼부)</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-7">
+                <div class="category-title">교제폭력<br>피해자</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-8">
+                <div class="category-title">홈리스</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-9">
+                <div class="category-title">느린<br>학습자</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-10">
+                <div class="category-title">청년<br>구직자</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-11">
+                <div class="category-title">주거취약<br>계층</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-12">
+                <div class="category-title">경계선<br>발달장애인</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-13">
+                <div class="category-title">유기견</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-14">
+                <div class="category-title">동물권</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-15">
+                <div class="category-title">해양 쓰레기<br>문제</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-16">
+                <div class="category-title">의류<br>폐기물</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-17">
+                <div class="category-title">자립준비<br>청년</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
+            <button class="category-card cat-18">
+                <div class="category-title">청소년<br>성소수자</div>
+                <div class="category-subtitle">Coming soon</div>
+            </button>
         </div>
     </div>
 
     <script>
-        // 다른 버튼들 클릭 시 준비 중 메시지
-        document.querySelectorAll('.category-button:not([href])').forEach(button => {
-            button.addEventListener('click', () => {
+        // 다른 카드들 클릭 시 준비 중 메시지
+        document.querySelectorAll('.category-card:not([href])').forEach(card => {
+            card.addEventListener('click', () => {
                 alert('해당 카테고리는 준비 중입니다. 곧 서비스할 예정이에요! 😊');
             });
         });
