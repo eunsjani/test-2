@@ -1008,7 +1008,13 @@
             const weeklyGoalButton = document.getElementById('weeklyGoalButton');
             if (weeklyGoalButton) {
                 weeklyGoalButton.addEventListener('click', () => {
-                    alert('이번 주 목표 달성을 위한 기능이 곧 추가될 예정입니다! 💪');
+                    // 현재 설정된 값들 가져오기
+                    const targetAmount = parseInt(targetDonationSlider.value);
+                    const weeklyAmount = parseInt(weeklyDonationSlider.value);
+                    const weeks = Math.ceil(targetAmount / weeklyAmount);
+                    
+                    // 스탬프 페이지로 이동 (파라미터와 함께)
+                    window.location.href = `stamps.html?weeks=${weeks}&target=${targetAmount}&weekly=${weeklyAmount}`;
                 });
             }
             
